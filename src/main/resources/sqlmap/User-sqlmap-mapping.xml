@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="User">
+
+	<typeAlias alias="user" type="com.family.finance.model.UserDO"/>
+	<typeAlias alias="dictionary" type="com.family.finance.model.DateDictionaryDO"/>
+	<typeAlias alias="syresource" type="com.family.finance.model.base.Syresource"/>
+
+	<resultMap id="userMap" class="user" >
+		<result property="id" column="id" javaType="Integer" jdbcType="NUMBER"/>
+		<result property="name" column="user_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="age" column="age" javaType="Integer" jdbcType="NUMBER"/>
+	</resultMap>
+	
+	<resultMap id="userFieldMap" class="user" >
+		<result property="loginName" column="loginName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="trueName" column="trueName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="updateDatetime" column="updateDatetime" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="createDatetime" column="createDatetime" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="sex" column="sex" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="photo" column="photo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<resultMap  id="dictionaryMap" class="dictionary">
+		<result property="key" column="key" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="value" column="value" javaType="Integer" jdbcType="NUMBER"/>
+	</resultMap>
+
+	<insert id="addUser" parameterClass="com.family.finance.model.UserDO">
+		insert users (user_name,password,age) values (#name#,#password#,#age#)
+	</insert>
+
+	<select id="queryUser" resultMap="userMap">
+		select id,user_name,age from users  
+	</select>
+	
+	<select id="userLogin" parameterClass="user" resultMap="userMap">
+		select id,user_name,age from users t where t.user_name=#name# and t.password=#password# 
+	</select>
+	
+	<select id="queryDictionary" parameterClass="Integer" resultMap="dictionaryMap">
+		SELECT t.key,t.value from data_dictionary t where t.parent_id=#parentId#
+	</select>
+	
+	<resultMap id="mainMenuTreeMap" class="syresource" >
+		<result property="id" column="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="url" column="url" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="iconCls" column="iconCls" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="target" column="target" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="pid" column="pid" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="getMainMenuTree"  resultMap="mainMenuTreeMap">
+		SELECT t.id, t.NAME,t.URL,t.ICONCLS,t.TARGET,t.SYRESOURCE_ID pid FROM syresource t where t.SYRESOURCETYPE_ID=0
+	</select>
+	
+	<sql id="selectUserField">
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="and" property="auctionStateVO.auctionNo">
+			<![CDATA[sas.auction_no=#auctionStateVO.auctionNo#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="auctionStateVO.auctionName">
+			<![CDATA[sas.auction_name like '%$auctionStateVO.auctionName$%']]>
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<select id="queryUserField" parameterClass="java.util.HashMap" resultMap="userFieldMap">
+		SELECT t.LOGINNAME,t.NAME trueName,t.UPDATEDATETIME,t.CREATEDATETIME,t.SEX,t.PHOTO FROM syuser t 
+		limit #pageBean.start#, #pageBean.limit#
+	</select>
+	
+	<select id="queryUserCount" parameterClass="java.util.HashMap" resultClass="Integer">
+		SELECT count(*) FROM syuser t
+	</select>
+</sqlMap>
+  
+ 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="UserAccount">
+
+	<typeAlias alias="userAccountDo" type="com.family.finance.model.UserAccountsDO"/>
+	
+	<insert id="addAccount" parameterClass="userAccountDo">
+		INSERT INTO user_accounts (user_id,direction,finance_type,money,remark,create_at) 
+						   VALUES (#userId#,#direction#,#financeType#,#money#,#remark#,#createAt#)
+	</insert>
+	
+	<sql id="financeByCondition"  >
+		<dynamic prepend="where">
+			<isNotNull property="account.direction" prepend="and">
+				ua.direction = #account.direction#
+			</isNotNull>
+			<isNotNull property="account.financeType" prepend="and">
+				ua.finance_type = #account.financeType#
+			</isNotNull>
+			<isNotNull property="account.createAt" prepend="and">
+				<![CDATA[ua.create_at >= #account.createAt#]]>
+			</isNotNull>
+		</dynamic>
+	</sql>
+	
+	
+	<select id="queryFinanceByCondition" parameterClass="java.util.HashMap" resultClass="userAccountDo">
+		select ua.user_id as userId,ua.direction, ua.finance_type as financeType, ua.money, ua.remark from users u 
+		LEFT JOIN user_accounts ua on u.id=ua.user_id <include refid="financeByCondition"/>
+		<isNotEmpty property="pageBean.limit">
+			limit $pageBean.start$,$pageBean.limit$
+		</isNotEmpty>
+	</select>
+	
+	<select id="queryFinanceCountByCondition" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		select count(1) from users u 
+		LEFT JOIN user_accounts ua on u.id=ua.user_id <include refid="financeByCondition"/>
+	</select>
+	
+	<select id="queryFinanceChart" parameterClass="java.util.HashMap" resultClass="userAccountDo">
+		select dd.key as financeTypeStr, tt.money from 
+			(select ua.finance_type, SUM(ua.money) as money from user_accounts ua where ua.direction=2 GROUP BY ua.finance_type) tt 
+				left JOIN (select * from data_dictionary t where t.parent_id=2)  dd on tt.finance_type=dd.value
+	</select>
+</sqlMap>
+  
+ 
