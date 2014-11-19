@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MyFamily
+Bundle-SymbolicName: MyFamily
+Bundle-Version: 1.0.0.qualifier
+Export-Package: com.family.Finance.MyFamily,
+ com.family.finance.controller,
+ com.family.finance.dao,
+ com.family.finance.dao.impl,
+ com.family.finance.model,
+ com.family.finance.service,
+ com.family.finance.service.impl

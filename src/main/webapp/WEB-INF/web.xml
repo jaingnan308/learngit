@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>Archetype Created Web Application</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<listener>    
+        <listener-class>    
+            org.springframework.web.context.request.RequestContextListener    
+        </listener-class>    
+	</listener>
+	
+	<listener>  
+        <listener-class>  
+            org.springframework.web.context.request.RequestContextListener  
+        </listener-class>  
+	</listener>  
+
+	<!-- 浏览器不支持put,delete等method,由该filter将/xxx?_method=delete转换为标准的http delete方法 -->
+	<filter>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<servlet-name>appServlet</servlet-name>
+	</filter-mapping>
+
+	<!-- spring mvc 核心Servlet -->
+	<servlet>
+		<servlet-name>MyFamily</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MyFamily</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+</web-app>
