@@ -33,6 +33,7 @@ public class UserAccountController {
 			throws IOException {
 		userAccountService.addAccount(account);
 		response.setContentType("text/html;charset=UTF-8");
+		//this is addition.
 		response.getWriter().print("[{'success':'true','str':'账单提交成功'}]");
 	}
 
