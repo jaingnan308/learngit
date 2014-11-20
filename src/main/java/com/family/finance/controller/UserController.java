@@ -34,7 +34,7 @@ import com.family.utils.JsonUtil;
 import com.family.utils.PageUtils;
 
 /**
- * 用户资源的控制器
+ * 专门为用户配置的用户资源的控制器
  * 
  * @author suchao
  * @version $Id: UserController.java, v 0.1 2014-7-18 下午02:44:57 suchao Exp $
