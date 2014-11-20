@@ -65,7 +65,6 @@ public class UserController {
 
 	/**
 	 * 用户登录
-	 * 
 	 * @param user
 	 * @param model
 	 * @return
