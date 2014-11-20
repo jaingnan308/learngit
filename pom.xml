@@ -79,7 +79,7 @@
 			<version>3.0.1</version>
 		</dependency>
 		
-		<!-- json -->
+		<!-- json 工具类-->
 		<dependency>
 			<groupId>net.sf.flexjson</groupId>
 			<artifactId>flexjson</artifactId>
