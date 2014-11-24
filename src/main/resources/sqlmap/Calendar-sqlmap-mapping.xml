@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Calendar">
+
+	<typeAlias alias="calendar" type="com.family.finance.model.Calendar"/>
+	
+
+	<insert id="add" parameterClass="calendar">
+		insert personal_calendar (user_id,title,details,start,end,background_color,text_color) 
+		values (#userId#,#title#,#details#,#start#,#end#,#backgroundColor#,#textColor#)
+		<selectKey resultClass="Integer" keyProperty="id" >
+		   SELECT @@IDENTITY AS ID
+		</selectKey>
+	</insert>
+	
+	<resultMap id="calendarResultMap" class="calendar" >
+		<result property="id" column="id" javaType="java.lang.Long" jdbcType="NUMBER"/>
+		<result property="userId" column="user_id" javaType="java.lang.Long" jdbcType="NUMBER"/>
+		<result property="title" column="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="details" column="details" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="start" column="start" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="end" column="end" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="backgroundColor" column="background_color" javaType="java.lang.String" jdbcType="VARCHAR"/>
+		<result property="textColor" column="text_color" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="getAll" resultMap="calendarResultMap" parameterClass="java.lang.Integer" >
+	  	select id, user_id, title, details, date_format(start,'%Y-%m-%d %T') start, date_format(end,'%Y-%m-%d %T') end, background_color, 
+	    text_color from personal_calendar where user_id=#userId#
+	 </select>
+	 
+	 <select id="getById" resultMap="calendarResultMap" parameterClass="java.lang.Long" >
+	    select 
+	    id, user_id, title, details, date_format(start,'%Y-%m-%d %T') start, date_format(end,'%Y-%m-%d %T') end, background_color, 
+	    text_color
+	    from personal_calendar
+	    where id = #id#
+	 </select>
+	 
+	 <delete id="delete" parameterClass="java.lang.Long" >
+	   delete from personal_calendar
+	   where id = #id#
+	 </delete>
+
+</sqlMap>
+  
+ 
