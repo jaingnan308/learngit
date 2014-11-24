@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.family.finance.dao.UserAccountDao;
+import com.family.finance.model.AccountChartVO;
 import com.family.finance.model.UserAccountsDO;
 import com.family.finance.service.UserAccountService;
 
@@ -61,5 +62,10 @@ public class UserAccountServiceImpl implements UserAccountService {
 	@Override
 	public List<UserAccountsDO> queryFinanceChart(Map<String, Object> map) {
 		return userAccountDao.queryFinanceChart(map);
+	}
+
+	@Override
+	public List<AccountChartVO> queryAccountChart() {
+		return userAccountDao.queryAccountChart();
 	}
 }

@@ -12,7 +12,6 @@
 		<!-- 自动扫描(自动注入) 
 	<context:component-scan base-package="com.family.finance" /> -->
 	 
-	 
 	<!-- 引入属性文件 -->
 	<context:property-placeholder location="classpath:jdbc.properties" />
 	
@@ -52,8 +51,10 @@
 		 <property name="userAccountDao" ref="userAccountDao" />
 	</bean>
 	
-	<!-- <bean id="userController" class="com.family.finance.controller.UserController" >
-		 <property name="userService" ref="userService" />
-	</bean> -->
-
+	<bean id="calendarDao" class="com.family.finance.dao.impl.calendar.CalendarDaoImpl" parent="baseSqlMapClientDAO" />
+	
+	<bean id="calendarService" class="com.family.finance.service.impl.calendar.CalendarServiceImpl" >
+		 <property name="calendarDao" ref="calendarDao" />
+	</bean>
+	
 </beans>

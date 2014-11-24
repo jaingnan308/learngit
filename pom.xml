@@ -8,6 +8,35 @@
   <packaging>war</packaging>
   <name>MyFamily</name>
   <url>http://maven.apache.org</url>
+  
+  <profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<repositories>
+				<repository>
+					<id>third-party</id>
+					<url>http://118.242.3.114:6080/artifactory/third-party</url>
+				</repository>
+				<repository>
+					<id>private-internal-repository</id>
+					<url>http://118.242.3.114:6080/artifactory/private-internal-repository 
+                    </url>
+				</repository>
+				<repository>
+					<id>central</id>
+					<name>Maven Repository Switchboard</name>
+					<layout>default</layout>
+					<url>http://repo1.maven.org/maven2</url>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+		</profile>
+	</profiles>
 
   <properties>
     <spring.version>4.0.0.RELEASE</spring.version>
@@ -99,6 +128,19 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.1</version>
 		</dependency>
+		
+		<!-- mvc返回类型支持json start -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.4.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.4.3</version>
+		</dependency>
+		<!-- mvc返回类型支持json end -->
 		
 	  </dependencies>
 	  

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import com.family.finance.dao.UserAccountDao;
+import com.family.finance.model.AccountChartVO;
 import com.family.finance.model.UserAccountsDO;
 
 public class UserAccountDaoImpl extends SqlMapClientDaoSupport implements
@@ -33,6 +34,12 @@ public class UserAccountDaoImpl extends SqlMapClientDaoSupport implements
 	public List<UserAccountsDO> queryFinanceChart(Map<String, Object> map) {
 		return super.getSqlMapClientTemplate().queryForList(
 				"UserAccount.queryFinanceChart", map);
+	}
+
+	@Override
+	public List<AccountChartVO> queryAccountChart() {
+		return super.getSqlMapClientTemplate().queryForList(
+				"UserAccount.queryAccountChart");
 	}
 
 }

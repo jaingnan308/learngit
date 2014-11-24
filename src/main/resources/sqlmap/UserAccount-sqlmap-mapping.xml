@@ -3,6 +3,7 @@
 <sqlMap namespace="UserAccount">
 
 	<typeAlias alias="userAccountDo" type="com.family.finance.model.UserAccountsDO"/>
+	<typeAlias alias="accountChart" type="com.family.finance.model.AccountChartVO"/>
 	
 	<insert id="addAccount" parameterClass="userAccountDo">
 		INSERT INTO user_accounts (user_id,direction,finance_type,money,remark,create_at) 
@@ -39,6 +40,19 @@
 	
 	<select id="queryFinanceChart" parameterClass="java.util.HashMap" resultClass="userAccountDo">
 		select dd.key as financeTypeStr, tt.money from 
+			(select ua.finance_type, SUM(ua.money) as money from user_accounts ua where ua.direction=2 GROUP BY ua.finance_type) tt 
+				left JOIN (select * from data_dictionary t where t.parent_id=2)  dd on tt.finance_type=dd.value
+	</select>
+	
+	<resultMap id="accountChartResultMap" class="accountChart" >
+		<result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="y" column="y" javaType="java.lang.Long" jdbcType="NUMBER"/>
+		<result property="selected" column="selected" />
+		<result property="sliced" column="sliced" />
+	</resultMap>
+	
+	<select id="queryAccountChart" resultMap="accountChartResultMap">
+		select dd.key as name, tt.money as y , 0 as selected, 0 as sliced from 
 			(select ua.finance_type, SUM(ua.money) as money from user_accounts ua where ua.direction=2 GROUP BY ua.finance_type) tt 
 				left JOIN (select * from data_dictionary t where t.parent_id=2)  dd on tt.finance_type=dd.value
 	</select>

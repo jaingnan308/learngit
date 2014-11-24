@@ -3,6 +3,7 @@ package com.family.finance.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.family.finance.model.AccountChartVO;
 import com.family.finance.model.UserAccountsDO;
 
 public interface UserAccountDao {
@@ -14,5 +15,7 @@ public interface UserAccountDao {
 	public int queryFinanceCountByCondition(Map<String, Object> map);
 
 	public List<UserAccountsDO> queryFinanceChart(Map<String, Object> map);
+	
+	public List<AccountChartVO> queryAccountChart();
 
 }

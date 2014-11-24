@@ -33,6 +33,8 @@ sy.pixel_0 = '<%=contextPath%>/style/images/pixel_0.gif';//0像素的背景，�
 <%-- 引入my97日期时间控件 --%>
 <script type="text/javascript" src="<%=contextPath%>/jslib/My97DatePicker4.8Beta3/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
 
+<script type="text/javascript" src="<%=contextPath%>/jslib/dateFormat.js"></script>
+
 <%-- 引入ueditor控件 --%>
 <script type="text/javascript" charset="utf-8">window.UEDITOR_HOME_URL = '<%=contextPath%>/jslib/ueditor1_2_6_1-utf8-jsp/';</script>
 <script src="<%=contextPath%>/jslib/ueditor1_2_6_1-utf8-jsp/ueditor.config.js" type="text/javascript" charset="utf-8"></script>
@@ -74,3 +76,9 @@ sy.pixel_0 = '<%=contextPath%>/style/images/pixel_0.gif';//0像素的背景，�
 
 <%-- 引入javascript扩展 --%>
 <script src="<%=contextPath%>/jslib/syExtJavascript.js?version=<%=version%>" type="text/javascript" charset="utf-8"></script>
+
+<!-- fullcalendar -->
+<link rel="stylesheet" type="text/css" href="<%=contextPath%>/jslib/fullcalendar-2.1.1/fullcalendar.css">
+<script type="text/javascript" src="<%=contextPath%>/jslib/fullcalendar-2.1.1/lib/moment.min.js"></script>
+<script type="text/javascript" src="<%=contextPath%>/jslib/fullcalendar-2.1.1/fullcalendar.min.js"></script>
+<script type="text/javascript" src="<%=contextPath%>/jslib/fullcalendar-2.1.1/lang/zh-cn.js"></script>

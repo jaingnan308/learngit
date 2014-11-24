@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.family.finance.model.AccountChartVO;
 import com.family.finance.model.PageBean;
 import com.family.finance.model.UserAccountsDO;
 import com.family.finance.service.UserAccountService;
 
 @Controller
-@RequestMapping(value = "/UserAccountController")
+@RequestMapping(value = "/account")
 public class UserAccountController {
 
 	@Autowired
@@ -66,6 +67,16 @@ public class UserAccountController {
 		str.append("]}");
 		System.out.println(str.toString());
 		return str.toString();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	
+	@RequestMapping(value = "/chart",method = RequestMethod.POST)
+	public @ResponseBody List<AccountChartVO> accountChart(){
+		return userAccountService.queryAccountChart();
 	}
 
 	/*@RequestMapping(value = "/financeChart")
