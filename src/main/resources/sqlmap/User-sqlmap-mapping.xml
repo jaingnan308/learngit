@@ -71,7 +71,7 @@
 		limit #pageBean.start#, #pageBean.limit#
 	</select>
 	
-	<select id="queryUserCount" parameterClass="java.util.HashMap" resultClass="Integer">
+	<select id="queryUserCount" parameterClass="java.util.HashMap" resultClass="Long">
 		SELECT count(*) FROM syuser t
 	</select>
 </sqlMap>

@@ -12,7 +12,7 @@ public interface UserAccountDao {
 
 	public List<UserAccountsDO> queryFinanceByCondition(Map<String, Object> map);
 
-	public int queryFinanceCountByCondition(Map<String, Object> map);
+	public Long queryFinanceCountByCondition(Map<String, Object> map);
 
 	public List<UserAccountsDO> queryFinanceChart(Map<String, Object> map);
 	

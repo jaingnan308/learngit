@@ -9,6 +9,7 @@ import com.family.finance.dao.UserAccountDao;
 import com.family.finance.model.AccountChartVO;
 import com.family.finance.model.UserAccountsDO;
 import com.family.finance.service.UserAccountService;
+import com.family.utils.PageUtils;
 
 public class UserAccountServiceImpl implements UserAccountService {
 
@@ -28,22 +29,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 
 	@Override
 	public List<UserAccountsDO> queryFinanceByCondition(Map<String, Object> map) {
-		// UserAccountsDO accountDo = new UserAccountsDO();
-		// StringBuffer json = new StringBuffer("[");
-		List<UserAccountsDO> list = userAccountDao.queryFinanceByCondition(map);
-		// for (Iterator it = list.iterator(); it.hasNext();) {
-		// accountDo = (UserAccountsDO) it.next();
-		// json.append("{\'userId\':\'" + accountDo.getUserId() +
-		// "\',\'direction\':\'"
-		// + accountDo.getDirection() + "\',\'financeType\':\'"
-		// + accountDo.getFinanceType() + "\',\'money\':\'" +
-		// accountDo.getMoney()
-		// + "\',\'remark\':\'" + accountDo.getRemark() + "\'},");
-		// }
-		// json.deleteCharAt(json.length() - 1);
-		// json.append("]");
-		// System.out.println(json);
-		return list;
+		PageUtils.setInitPagingBean(map);
+		return userAccountDao.queryFinanceByCondition(map);
 	}
 
 	public UserAccountDao getUserAccountDao() {
@@ -55,7 +42,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 
 	@Override
-	public int queryFinanceCountByCondition(Map<String, Object> map) {
+	public Long queryFinanceCountByCondition(Map<String, Object> map) {
 		return userAccountDao.queryFinanceCountByCondition(map);
 	}
 

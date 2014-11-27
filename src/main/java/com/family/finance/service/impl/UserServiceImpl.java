@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer queryUserCount(Map<String, Object> params) {
+    public Long queryUserCount(Map<String, Object> params) {
         return userDao.queryUserCount(params);
     }
 

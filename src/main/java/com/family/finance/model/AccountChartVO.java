@@ -17,7 +17,10 @@ public class AccountChartVO implements Serializable {
 	//是否切片显示
 	private Boolean sliced = false;
 	//项目总金额
-	private Long y;
+	private Double y = 0.0;
+	//项目所占百分比
+	private Double percentage;
+	
 	public String getName() {
 		return name;
 	}
@@ -36,10 +39,17 @@ public class AccountChartVO implements Serializable {
 	public void setSliced(Boolean sliced) {
 		this.sliced = sliced;
 	}
-	public Long getY() {
+	public Double getY() {
 		return y;
 	}
-	public void setY(Long y) {
+	public void setY(Double y) {
 		this.y = y;
 	}
+	public Double getPercentage() {
+		return percentage;
+	}
+	public void setPercentage(Double percentage) {
+		this.percentage = percentage;
+	}
+	
 }

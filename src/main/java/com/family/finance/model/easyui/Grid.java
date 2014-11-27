@@ -10,20 +10,24 @@ import java.util.List;
  * 
  */
 public class Grid implements java.io.Serializable {
-
-	private Integer total = 0;
+	
+	private static final long serialVersionUID = 9999L;
+	//查询返回记录的总条数
+	private Long total = 0L;
+	//查询出来的record
 	private List rows = new ArrayList();
 
 
-	public Integer getTotal() {
-        return total;
-    }
 
-    public void setTotal(Integer total) {
-        this.total = total;
-    }
+    public Long getTotal() {
+		return total;
+	}
 
-    public List getRows() {
+	public void setTotal(Long total) {
+		this.total = total;
+	}
+
+	public List getRows() {
 		return rows;
 	}
 

@@ -53,8 +53,8 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
     }
 
     @Override
-    public Integer queryUserCount(Map<String, Object> params) throws DataAccessException {
-        return (Integer) super.getSqlMapClientTemplate().queryForObject(
+    public Long queryUserCount(Map<String, Object> params) throws DataAccessException {
+        return (Long) super.getSqlMapClientTemplate().queryForObject(
             "User.queryUserCount",params);
     }
 }

@@ -24,5 +24,5 @@ public interface UserDao {
 	
 	public List<UserDO> queryUser(Map<String, Object> params) throws DataAccessException;
 	
-	public Integer queryUserCount(Map<String, Object> params) throws DataAccessException;
+	public Long queryUserCount(Map<String, Object> params) throws DataAccessException;
 }

@@ -14,7 +14,7 @@ public interface UserService {
 	
 	public List<UserDO> queryUser(Map<String, Object> params);
 	
-	public Integer queryUserCount(Map<String, Object> params);
+	public Long queryUserCount(Map<String, Object> params);
 	
 	public UserDO userLogin(UserDO user);
 

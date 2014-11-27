@@ -37,14 +37,16 @@
 						color : '#000000',
 						connectorColor : '#000000',
 						formatter : function() {
-							return '<b>' + this.point.name + '</b>统计 ：' + this.y + ' 元 ';
+							//return '<b>' + this.point.name + '</b>统计 ：' + this.y + ' 元 ';
+							  return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.y, 0, ',')+'元 '+
+							  '(' + Highcharts.numberFormat(this.percentage, 2) +'%'+')';
 						}
 					}
 				}
 			},
 			series : [ {
 				type : 'pie',
-				name : '金额 ：',
+				name : '金额  ',
 				data : []
 			} ]
 		});
@@ -58,7 +60,8 @@
 
 			var chart = $('#container').highcharts();
 			chart.series[0].setData(result);
-
+			chart.series[0].name = '我想要的结果 ';
+			chart.title.text = '我想要的统计表 ';
 			parent.$.messager.progress('close');
 		}, 'json');
 

@@ -25,8 +25,8 @@ public class UserAccountDaoImpl extends SqlMapClientDaoSupport implements
 	}
 
 	@Override
-	public int queryFinanceCountByCondition(Map<String, Object> map) {
-		return (Integer) super.getSqlMapClientTemplate().queryForObject(
+	public Long queryFinanceCountByCondition(Map<String, Object> map) {
+		return (Long) super.getSqlMapClientTemplate().queryForObject(
 				"UserAccount.queryFinanceCountByCondition", map);
 	}
 
