@@ -74,7 +74,7 @@
 		}).dialog('close');
 
 		mainMenu = $('#mainMenu').tree({
-			url : sy.contextPath + '/UserController/getMainMenu',
+			url : sy.contextPath + '/user/getMainMenu',
 			parentField : 'pid',
 			onClick : function(node) {
 				if (node.attributes.url) {

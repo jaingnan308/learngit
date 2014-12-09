@@ -49,17 +49,27 @@
       <artifactId>spring-webmvc</artifactId>
       <version>${spring.version}</version>
     </dependency>
+    
+    <!-- spring 支持包 (邮件服务)  -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context-support</artifactId>
+		<version>${spring.version}</version>
+	</dependency>
+    
   
 	<dependency>
 		<groupId>javax.servlet.jsp</groupId>
 		<artifactId>jsp-api</artifactId>
 		<version>2.2</version>
 	</dependency>
+	
 	<dependency>
 		<groupId>javax.servlet</groupId>
 		<artifactId>jstl</artifactId>
 		<version>1.2</version>
 	</dependency>
+	
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -129,6 +139,14 @@
 			<version>3.1</version>
 		</dependency>
 		
+		<!-- Javamail API -->
+	    <dependency>
+	      <groupId>javax.mail</groupId>
+	      <artifactId>mail</artifactId>
+	      <version>1.4.4</version>
+	    </dependency>
+		
+		
 		<!-- mvc返回类型支持json start -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -141,6 +159,34 @@
 			<version>2.4.3</version>
 		</dependency>
 		<!-- mvc返回类型支持json end -->
+		
+		<!-- shiro权限控制 start -->
+		<dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-quartz</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+		<!-- shiro权限控制 end -->
 		
 	  </dependencies>
 	  

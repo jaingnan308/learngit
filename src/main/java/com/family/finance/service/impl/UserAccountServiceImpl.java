@@ -5,26 +5,24 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.family.finance.dao.UserAccountDao;
 import com.family.finance.model.AccountChartVO;
 import com.family.finance.model.UserAccountsDO;
 import com.family.finance.service.UserAccountService;
 import com.family.utils.PageUtils;
 
+@Service("userAccountService")
 public class UserAccountServiceImpl implements UserAccountService {
 
 	private UserAccountDao userAccountDao;
 
 	@Override
-	public void addAccount(UserAccountsDO account) {
-		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-		String date = account.getCreateAtStr();
-		try {
-			account.setCreateAt(sf.parse(date));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		userAccountDao.addAccount(account);
+	public Long addAccount(Map<String, Object> params) {
+//		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+//		String date = account.getCreateAtStr();
+		return userAccountDao.addAccount(params);
 	}
 
 	@Override

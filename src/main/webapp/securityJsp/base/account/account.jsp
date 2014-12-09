@@ -13,14 +13,16 @@
 		var dialog = parent.sy.smallDialog({
 			title : '添加账单信息',
 			url : sy.contextPath + '/securityJsp/base/account/addAccount.jsp',
-			buttons : [ {
+			buttons : [{
 				text : '添加',
 				handler : function() {
 					dialog.find('iframe').get(0).contentWindow.submitForm(dialog, grid, parent.$);
 				}
-			} ]
+			}]
+			
 		});
 	};
+	
 	var showFun = function(id) {
 		var dialog = parent.sy.modalDialog({
 			title : '查看用户信息',

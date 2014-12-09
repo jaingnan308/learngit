@@ -328,7 +328,7 @@ sy.modalDialog = function(options) {
 sy.smallDialog = function(options) {
 	var opts = $.extend({
 		title : '&nbsp;',
-		width : 450,
+		width : 470,
 		height : 400,
 		modal : true,
 		onClose : function() {

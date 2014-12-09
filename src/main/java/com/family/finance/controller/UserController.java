@@ -1,7 +1,6 @@
 package com.family.finance.controller;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.family.finance.model.DateDictionaryDO;
 import com.family.finance.model.SessionInfo;
 import com.family.finance.model.UserAccountsDO;
 import com.family.finance.model.UserDO;
@@ -40,7 +41,7 @@ import com.family.utils.PageUtils;
  * @version $Id: UserController.java, v 0.1 2014-7-18 下午02:44:57 suchao Exp $
  */
 @Controller
-@RequestMapping(value = "/UserController")
+@RequestMapping(value = "/user")
 public class UserController {
 
 	@Autowired
@@ -153,16 +154,9 @@ public class UserController {
 		return "dsadfdsaf";
 	}
 
-	@RequestMapping(value = "/dictionary/{parentId}", method = RequestMethod.GET)
-	public void queryDictionary(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
-		response.setContentType("text/html;charset=UTF-8");
-		String str = URLDecoder.decode(request.getParameter("parentId"),
-				"UTF-8");
-		response.getWriter().print(
-				URLDecoder.decode(
-						userService.queryDictionary(Integer.valueOf(str)),
-						"UTF-8"));
+	@RequestMapping(value = "/moneyType", method = RequestMethod.POST)
+	public @ResponseBody List<DateDictionaryDO> queryDictionary(Integer parentId) {
+		return userService.queryDictionary(parentId);
 	}
 
 }

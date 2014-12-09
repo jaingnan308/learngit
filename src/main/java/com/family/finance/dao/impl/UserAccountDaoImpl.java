@@ -13,9 +13,9 @@ public class UserAccountDaoImpl extends SqlMapClientDaoSupport implements
 		UserAccountDao {
 
 	@Override
-	public void addAccount(UserAccountsDO account) {
-		super.getSqlMapClientTemplate().insert("UserAccount.addAccount",
-				account);
+	public Long addAccount(Map<String, Object> params) {
+		return (Long) super.getSqlMapClientTemplate().insert("UserAccount.addAccount",
+				params);
 	}
 
 	@Override

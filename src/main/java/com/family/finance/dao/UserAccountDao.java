@@ -8,7 +8,8 @@ import com.family.finance.model.UserAccountsDO;
 
 public interface UserAccountDao {
 
-	public void addAccount(UserAccountsDO account);
+	//添加一个账单
+	public Long addAccount(Map<String, Object> params);
 
 	public List<UserAccountsDO> queryFinanceByCondition(Map<String, Object> map);
 

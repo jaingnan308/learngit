@@ -77,7 +77,7 @@
 	$(function() {
 		grid = $('#grid').datagrid({
 			title : '',
-			url : sy.contextPath + '/UserController/queryUser',
+			url : sy.contextPath + '/user/queryUser',
 			striped : true,
 			rownumbers : true,
 			pagination : true,

@@ -14,96 +14,107 @@
 <title></title>
 <jsp:include page="../../../inc.jsp"></jsp:include>
 <script type="text/javascript">
-	var submitNow = function($dialog, $grid, $pjq) {
-		var url;
-		if ($(':input[name="data.id"]').val().length > 0) {
-			url = sy.contextPath + '/base/syuser!update.sy';
-		} else {
-			url = sy.contextPath + '/account/add';
-		}
-		$.post(url, sy.serializeObject($('form')), function(result) {
-			parent.sy.progressBar('close');//关闭上传进度条
-
-			if (result.success) {
-				$pjq.messager.alert('提示', result.msg, 'info');
-				$grid.datagrid('load');
-				$dialog.dialog('destroy');
-			} else {
-				$pjq.messager.alert('提示', result.msg, 'error');
-			}
-		}, 'json');
+window.onload = function(){  
+	function selectFinanceType(newVal){
+		$('#finance_type').combobox({
+			 url:sy.contextPath + '/user/moneyType?parentId='+newVal,
+			 valueField:'value',
+			 textField:'key',
+			 onLoadSuccess: function () { //加载完成后,设置选中第一项
+                var val = $(this).combobox("getData");
+                for (var item in val[0]) {
+                    if (item == "value") {
+                        $(this).combobox("select", val[0][item]);
+                    }
+                }
+             }
+		});
 	};
-	var submitForm = function($dialog, $grid, $pjq) {
-		if ($('form').form('validate')) {
-				submitNow($dialog, $grid, $pjq);
-		}
-	};
-	$(function() {
-		if ($(':input[name="data.id"]').val().length > 0) {
-			parent.$.messager.progress({
-				text : '数据加载中....'
-			});
-			$.post(sy.contextPath + '/base/syuser!getById.sy', {
-				id : $(':input[name="data.id"]').val()
-			}, function(result) {
-				if (result.id != undefined) {
-					$('form').form('load', {
-						'data.id' : result.id,
-						'data.name' : result.name,
-						'data.loginname' : result.loginname,
-						'data.sex' : result.sex,
-						'data.age' : result.age,
-						'data.photo' : result.photo
-					});
-					if (result.photo) {
-						$('#photo').attr('src', sy.contextPath + result.photo);
-					}
-				}
-				parent.$.messager.progress('close');
-			}, 'json');
-		}
+	
+	 $("#account_direction").combobox({
+		 onChange: function (newVal,oldVal) {
+			 selectFinanceType(newVal);
+		 }
 	});
+
+	//初始化数据
+	$(function() {
+		selectFinanceType($('#account_direction').val());
+		$('#add_account_moneytime').val(new Date().format('yyyy-MM-dd'));
+	});
+
+};
+var submitForm = function($dialog, $grid, $pjq) {
+	console.log($('#account_add_form'));
+	if ($('form').form('validate')) {
+		$.ajax({
+			type : "POST",
+			url : '/account/add',
+			data : $('#account_add_form').serialize(),// 你的formid
+			//data : sy.serializeObject($('form')),// 你的formid
+			error : function() {
+				alert("error");
+			},
+			success : function(data) {
+				alert("data="+data);
+				if (data != null && data != "") {
+					$pjq.messager.alert('提示', "添加账单成功!", 'info');
+					$grid.datagrid('load');
+					$dialog.dialog('destroy');
+				}else{
+					$pjq.messager.alert('提示', "添加账单失败,请稍候再试!", 'info');
+				}
+			}
+		});
+	};
+};
 </script>
 </head>
 <body>
-	<form method="post" class="form">
+	<form method="post" class="form" id="account_add_form">
 		<fieldset>
 			<legend>账单基本信息</legend>
 			<table class="table" style="width: 100%;">
 				<tr>
-					<td><input name="data.id" value="<%=id%>"  type="hidden"/></td>
+					<td><input name="id" value="<%=id%>"  type="hidden"/></td>
 				</tr>
 				<tr>
 					<th>账单持有人</th>
-					<td><input name="data.userId" /></td>
+					<td><input name="userId" /></td>
 				</tr>
 				<tr><td></td><td></td></tr>
 				<tr>
 					<th>资金流向</th>
-					<td><select class="easyui-combobox" name="data.direction" data-options="panelHeight:'auto',editable:false" style="width: 155px;">
+					<td><select id="account_direction" class="easyui-combobox" name="direction" data-options="panelHeight:'auto',editable:false" style="width: 155px;">
 							<option value="1">收入</option>
-							<option value="0">支出</option>
+							<option value="2">支出</option>
 					</select></td>
 				</tr>
 				<tr><td></td><td></td></tr>
 				<tr>
 					<th>资金类型</th>
-					<td><select class="easyui-combobox" name="data.financeType" data-options="panelHeight:'auto',editable:false" style="width: 155px;">
-							<option value="1">餐费</option>
-							<option value="4">交通</option>
-							<option value="2">礼金</option>
-					</select></td>
+					<td><input id = "finance_type" class="easyui-combobox" name="financeType" 
+					data-options="valueField:'value',textField:'key',panelHeight:'auto',editable:false" style="width: 155px;" /></td>
+					
 				</tr>
 				<tr><td></td></tr>
 				<tr>
 					<th>金额</th>
-					<td><input name="data.money" /></td>
+					<td><input name="money" class="easyui-numberbox" min="1" max="9999999.99" precision="2" 
+						invalidMessage="必须填写1-9999999.99之间的数字!" missingMessage="必须填写1-9999999.99之间的数字!" data-options="required:true" /></td>
 				</tr>
 				<tr><td></td></tr>
 				<tr>
-					<th>备注</th>
-					<td><input name="data.remark" /></td>
+					<th>收入/支出时间</th>
+					<td><input id="add_account_moneytime" name="moneyTime" class="Wdate" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd'})" readonly="readonly" style="width: 152px;" /></td>
 				</tr>
+				<tr>
+					<th>备注</th>
+					<td><textarea class="easyui-validatebox" name="remark" validType="length[2,80]" invalidMessage="不能小于2或超过80个字符!" missingMessage="备注不能为空"  style="heigth:120px; width: 155px;" data-options="required:true"></textarea></td>
+				</tr>
+				<tr>
+				<th><input type="file" name="upload" id="upload"  class="easyui-validatebox" validType="fileType['BMP|GIF|JPG|JPEG|ICO|PNG|TIF']" required="true" invalidMessage="请选择(BMP|GIF|JPG|JPEG|ICO|PNG|TIF)等格式的图片"/> </th>
+					<!-- <th><input type="file" name="file" /></th> <td><input type="submit" value="Submit" /></td> -->
 			</table>
 		</fieldset>
 	</form>

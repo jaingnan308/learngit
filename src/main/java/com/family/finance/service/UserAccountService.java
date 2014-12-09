@@ -8,7 +8,7 @@ import com.family.finance.model.UserAccountsDO;
 
 public interface UserAccountService {
 
-	public void addAccount(UserAccountsDO account);
+	public Long addAccount(Map<String, Object> params);
 
 	public List<UserAccountsDO> queryFinanceByCondition(Map<String, Object> map);
 

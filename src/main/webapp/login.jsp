@@ -38,7 +38,7 @@ li {list-style:none;}
 	</div>
 	<div id="content">
 		<br /><br /><br />
-		<form action="${ctx }/UserController/userLogin" method="post">
+		<form action="${ctx }/user/userLogin" method="post">
 			<br />
 			<h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用&nbsp;户&nbsp;登&nbsp;录</h4>
 			<br />

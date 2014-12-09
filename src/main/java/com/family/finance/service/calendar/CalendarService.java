@@ -1,5 +1,6 @@
 package com.family.finance.service.calendar;
 
+import java.util.Date;
 import java.util.List;
 
 import com.family.finance.model.Calendar;
@@ -37,4 +38,9 @@ public interface CalendarService {
 	 */
 	public Long delete(Long id);
 	
+	/**
+	 * 根据时间查询当前时间内5分钟有无提醒事件
+	 * @return
+	 */
+	public List<Calendar> getRemindByThisTime();
 }

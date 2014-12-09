@@ -43,19 +43,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String queryDictionary(Integer parentId) {
-		DateDictionaryDO dictionary = new DateDictionaryDO();
-		StringBuffer json = new StringBuffer("[");
-		List<DateDictionaryDO> list = userDao.queryDictionary(parentId);
-		// json.append("success:true,root:[");
-		for (Iterator it = list.iterator(); it.hasNext();) {
-			dictionary = (DateDictionaryDO) it.next();
-			json.append("{\'key\':" + "\'" + dictionary.getKey() + "\'" + ","
-					+ "\'value\':" + "\'" + dictionary.getValue() + "\'" + "},");
-		}
-		json.deleteCharAt(json.length() - 1);
-		json.append("]");
-		return json.toString();
+	public List<DateDictionaryDO> queryDictionary(Integer parentId) {
+		return userDao.queryDictionary(parentId);
 	}
 	
     @Override

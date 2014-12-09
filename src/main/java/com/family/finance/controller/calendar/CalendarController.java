@@ -43,6 +43,7 @@ public class CalendarController {
 		System.out.println(calendar.toString());
         try {
         	calendar.setUserId(1L);
+        	calendar.setEnd(calendar.getStart());
         	int result = calendarService.add(calendar);
 			PageUtils.setSuccessResponse(response, String.valueOf(result));
 		} catch (Exception e) {

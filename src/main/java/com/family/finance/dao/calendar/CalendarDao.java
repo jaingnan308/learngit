@@ -1,5 +1,6 @@
 package com.family.finance.dao.calendar;
 
+import java.util.Date;
 import java.util.List;
 
 import com.family.finance.model.Calendar;
@@ -18,4 +19,6 @@ public interface CalendarDao {
 	public Calendar getById(Long id);
 	
 	public Long delete(Long id);
+	
+	public List<Calendar> getRemindByThisTime();
 }

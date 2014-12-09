@@ -3,5 +3,5 @@
 	String contextPath = request.getContextPath();
 %>
 <div class="panel-header panel-title" style="text-align: center;">
-	版权所有@<a href="mailto:89333367@qq.com">孙宇</a>
+	版权所有@<a href="mailto:306338457@qq.com">苏超</a>
 </div>

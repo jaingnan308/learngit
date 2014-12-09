@@ -1,5 +1,6 @@
 package com.family.finance.dao.impl.calendar;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
@@ -27,5 +28,10 @@ public class CalendarDaoImpl extends SqlMapClientDaoSupport implements CalendarD
 	@Override
 	public Long delete(Long id) {
 		return (long) super.getSqlMapClientTemplate().delete("Calendar.delete",id);
+	}
+
+	@Override
+	public List<Calendar> getRemindByThisTime() {
+		return super.getSqlMapClientTemplate().queryForList("Calendar.getRemindByThisTime");
 	}
 }

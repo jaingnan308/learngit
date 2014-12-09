@@ -41,6 +41,11 @@
 	   delete from personal_calendar
 	   where id = #id#
 	 </delete>
+	 
+	 <select id="getRemindByThisTime" resultMap="calendarResultMap" >
+	  	<![CDATA[ select id, user_id, title, details, date_format(start,'%Y-%m-%d %T') start, date_format(end,'%Y-%m-%d %T') end, background_color, 
+	    text_color from personal_calendar t where t.`start` >= SYSDATE() and  t.`start` <= date_add(SYSDATE(), interval 5 minute) ]]>
+	 </select>
 
 </sqlMap>
   

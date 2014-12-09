@@ -5,9 +5,12 @@
 	<typeAlias alias="userAccountDo" type="com.family.finance.model.UserAccountsDO"/>
 	<typeAlias alias="accountChart" type="com.family.finance.model.AccountChartVO"/>
 	
-	<insert id="addAccount" parameterClass="userAccountDo">
-		INSERT INTO user_accounts (user_id,direction,finance_type,money,remark,create_at) 
-						   VALUES (#userId#,#direction#,#financeType#,#money#,#remark#,#createAt#)
+	<insert id="addAccount" parameterClass="java.util.HashMap">
+		INSERT INTO user_accounts (user_id,direction,finance_type,money,remark,money_time,create_at) 
+						   VALUES (#userId#,#direction#,#financeType#,#money#,#remark#,#moneyTime#,SYSDATE())
+		<selectKey resultClass="Long" keyProperty="id" >
+		   SELECT @@IDENTITY AS ID
+		</selectKey>
 	</insert>
 	
 	<sql id="financeByCondition"  >

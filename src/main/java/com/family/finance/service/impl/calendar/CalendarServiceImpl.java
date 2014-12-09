@@ -1,5 +1,6 @@
 package com.family.finance.service.impl.calendar;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -39,6 +40,11 @@ public class CalendarServiceImpl implements CalendarService{
 	@Override
 	public Long delete(Long id) {
 		return calendarDao.delete(id);
+	}
+
+	@Override
+	public List<Calendar> getRemindByThisTime() {
+		return calendarDao.getRemindByThisTime();
 	}
 
 }
