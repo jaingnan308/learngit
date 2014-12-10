@@ -2,17 +2,14 @@
 <%
 	String contextPath = request.getContextPath();
 %>
-<%
-	String id = request.getParameter("id");
-	if (id == null) {
-		id = "";
-	}
-%>
 <!DOCTYPE html>
 <html>
 <head>
 <title></title>
 <jsp:include page="../../../inc.jsp"></jsp:include>
+<style> 
+td{text-align:center} 
+</style> 
 <script type="text/javascript">
 window.onload = function(){  
 	function selectFinanceType(newVal){
@@ -42,7 +39,6 @@ window.onload = function(){
 		selectFinanceType($('#account_direction').val());
 		$('#add_account_moneytime').val(new Date().format('yyyy-MM-dd'));
 	});
-
 };
 var submitForm = function($dialog, $grid, $pjq) {
 	console.log($('#account_add_form'));
@@ -68,15 +64,48 @@ var submitForm = function($dialog, $grid, $pjq) {
 		});
 	};
 };
+function setImagePreview() {  
+    var docObj=document.getElementById("doc");  
+    var imgObjPreview=document.getElementById("preview");  
+    if(docObj.files && docObj.files[0]){  
+        //火狐下，直接设img属性  
+        imgObjPreview.style.display = 'block';  
+        imgObjPreview.style.width = '460px';  
+        imgObjPreview.style.height = '245px';                      
+        //imgObjPreview.src = docObj.files[0].getAsDataURL();  
+          
+        //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式    
+        imgObjPreview.src = window.URL.createObjectURL(docObj.files[0]);  
+    }else{  
+        //IE下，使用滤镜  
+        docObj.select();  
+        var imgSrc = document.selection.createRange().text;  
+        var localImagId = document.getElementById("localImag");  
+        //必须设置初始大小  
+        localImagId.style.width = "300px";  
+        localImagId.style.height = "120px";  
+        //图片异常的捕捉，防止用户修改后缀来伪造图片  
+        try{  
+            localImagId.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";  
+            localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;  
+        }catch(e){  
+            alert("您上传的图片格式不正确，请重新选择!");  
+            return false;  
+        }  
+        imgObjPreview.style.display = 'none';  
+        document.selection.empty();  
+    }  
+    return true;  
+} 
 </script>
 </head>
 <body>
 	<form method="post" class="form" id="account_add_form">
 		<fieldset>
 			<legend>账单基本信息</legend>
-			<table class="table" style="width: 100%;">
+			<table class="table" style="width: 100%;"  cellpadding=”2″>
 				<tr>
-					<td><input name="id" value="<%=id%>"  type="hidden"/></td>
+					<td><input name="id"  type="hidden"/></td>
 				</tr>
 				<tr>
 					<th>账单持有人</th>
@@ -113,8 +142,15 @@ var submitForm = function($dialog, $grid, $pjq) {
 					<td><textarea class="easyui-validatebox" name="remark" validType="length[2,80]" invalidMessage="不能小于2或超过80个字符!" missingMessage="备注不能为空"  style="heigth:120px; width: 155px;" data-options="required:true"></textarea></td>
 				</tr>
 				<tr>
-				<th><input type="file" name="upload" id="upload"  class="easyui-validatebox" validType="fileType['BMP|GIF|JPG|JPEG|ICO|PNG|TIF']" required="true" invalidMessage="请选择(BMP|GIF|JPG|JPEG|ICO|PNG|TIF)等格式的图片"/> </th>
+					<th>图片</th>
+				 <th style="text-align:left"><input type=file name="doc" id="doc" onchange="javascript:setImagePreview();" /></th> 
 					<!-- <th><input type="file" name="file" /></th> <td><input type="submit" value="Submit" /></td> -->
+				</tr>
+				<tr>
+			    <!-- <div id="localImag"><img id="preview" width=-1 height=-1 style="diplay:none" /></div>   -->
+			    <td colspan="2" style="img-align:center" >
+			    	<img id="preview" width=-1 height=-1 /></td>
+			    </tr>
 			</table>
 		</fieldset>
 	</form>

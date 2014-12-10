@@ -328,8 +328,8 @@ sy.modalDialog = function(options) {
 sy.smallDialog = function(options) {
 	var opts = $.extend({
 		title : '&nbsp;',
-		width : 470,
-		height : 400,
+		width : 550,
+		height : 640,
 		modal : true,
 		onClose : function() {
 			$(this).dialog('destroy');
