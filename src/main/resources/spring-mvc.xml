@@ -27,7 +27,23 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 	
-	 
+	  <!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->  
+        <!-- 指定所上传文件的总大小不能超过500KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->  
+    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+        <beans:property name="defaultEncoding" value="UTF-8"/>  
+        <beans:property name="maxUploadSize" value="500000"/>  
+    </beans:bean>  
+    
+    <!-- SpringMVC在超出上传文件限制时，会抛出org.springframework.web.multipart.MaxUploadSizeExceededException -->  
+    <!-- 该异常是SpringMVC在检查上传的文件信息时抛出来的，而且此时还没有进入到Controller方法中 -->  
+                <!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到/WEB-INF/error/500.jsp页面  -->  
+    <beans:bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
+        <beans:property name="exceptionMappings">  
+            <beans:props>  
+                <beans:prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">error/500</beans:prop>  
+            </beans:props>  
+        </beans:property>  
+    </beans:bean>  
 	
 	<!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL-->	
 	<mvc:default-servlet-handler/>

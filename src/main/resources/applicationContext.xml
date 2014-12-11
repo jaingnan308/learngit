@@ -27,15 +27,15 @@
 		
 		<!--初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
 		<property name="initialPoolSize">
-			<value>2</value>
+			<value>3</value>
 		</property>
 		<!--连接池中保留的最小连接数。 -->
 		<property name="minPoolSize">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<!--连接池中保留的最大连接数。Default: 15 -->
 		<property name="maxPoolSize">
-			<value>50</value>
+			<value>100</value>
 		</property>
 		<!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
 		<property name="maxIdleTime">
