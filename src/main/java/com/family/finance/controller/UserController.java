@@ -71,19 +71,16 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/userLogin", method = RequestMethod.POST)
-	public String userLogin(UserDO user, Model model, HttpSession session,
+	public @ResponseBody UserDO userLogin(UserDO user, Model model, HttpSession session,
 			HttpServletRequest request) {
 		request.getCookies();
 		UserDO userDO = userService.userLogin(user);
 		if (userDO != null) {
-		    SessionInfo sessionInfo = new SessionInfo();
 			model.addAttribute("user", user);
-			sessionInfo.setUser(userDO);
-			session.setAttribute(ConfigUtil.getSessionInfoName(), sessionInfo);
-			return "index";
+			session.setAttribute(ConfigUtil.getSessionInfoName(), userDO);
+			return userDO;
 		} else {
-			model.addAttribute("str", "success:true");
-			return "login";
+			return null;
 		}
 	}
 	
@@ -93,7 +90,7 @@ public class UserController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/queryUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/queryUser.do", method = RequestMethod.POST)
     public void queryUser(@RequestParam Map<String, Object> params, HttpServletResponse response,
             HttpServletRequest request) {
         String result = "";
@@ -117,7 +114,7 @@ public class UserController {
     @RequestMapping(value = "/getMainMenu", method = RequestMethod.POST)
     public void getMainMenu(HttpSession session, HttpServletResponse response,
             HttpServletRequest request) {
-        SessionInfo sessionInfo = (SessionInfo)session.getAttribute(ConfigUtil.getSessionInfoName());
+    	UserDO user = (UserDO)session.getAttribute(ConfigUtil.getSessionInfoName());
         List<Syresource> resources = userService.getMainMenuTree();
         List<Tree> tree = new ArrayList<Tree>();
         for (Syresource resource : resources) {
@@ -157,6 +154,11 @@ public class UserController {
 	@RequestMapping(value = "/moneyType", method = RequestMethod.POST)
 	public @ResponseBody List<DateDictionaryDO> queryDictionary(Integer parentId) {
 		return userService.queryDictionary(parentId);
+	}
+	
+	@RequestMapping(value = "/combox", method = RequestMethod.POST)
+	public @ResponseBody List<UserDO> queryCombox() {
+		return userService.queryCombox();
 	}
 
 }

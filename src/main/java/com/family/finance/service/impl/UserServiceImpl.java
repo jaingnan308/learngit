@@ -47,6 +47,11 @@ public class UserServiceImpl implements UserService {
 		return userDao.queryDictionary(parentId);
 	}
 	
+	@Override
+	public List<UserDO> queryCombox() {
+		return userDao.queryCombox();
+	}
+	
     @Override
     public List<Syresource> getMainMenuTree() {
         return userDao.getMainMenuTree();
@@ -62,5 +67,6 @@ public class UserServiceImpl implements UserService {
     public Long queryUserCount(Map<String, Object> params) {
         return userDao.queryUserCount(params);
     }
+
 
 }

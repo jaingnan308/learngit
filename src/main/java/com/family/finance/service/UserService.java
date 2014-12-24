@@ -21,6 +21,8 @@ public interface UserService {
 
 	public List<DateDictionaryDO> queryDictionary(Integer parentId);
 	
+	public List<UserDO> queryCombox();
+	
 	public List<Syresource> getMainMenuTree();
 
 }

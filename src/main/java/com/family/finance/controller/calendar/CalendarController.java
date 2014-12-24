@@ -1,6 +1,5 @@
 package com.family.finance.controller.calendar;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.family.finance.model.Calendar;
-import com.family.finance.model.SessionInfo;
+import com.family.finance.model.UserDO;
 import com.family.finance.service.calendar.CalendarService;
-import com.family.utils.JsonUtil;
 import com.family.utils.PageUtils;
 
 /**
@@ -59,14 +57,14 @@ public class CalendarController {
 	 */
 	@RequestMapping(value = "/getAll", method = RequestMethod.POST)
 	public @ResponseBody List<Calendar> getAll(HttpSession session, HttpServletResponse response) {
-		SessionInfo sessionInfo = null;
+		UserDO user = null;
 		List<Calendar> result = null;
         try {
         	Object obj = session.getAttribute("sessionInfo");
         	if(obj != null){
-        		sessionInfo = (SessionInfo)obj;
+        		user = (UserDO)obj;
         	}
-        	result = calendarService.getAll(sessionInfo.getUser().getId());
+        	result = calendarService.getAll(user.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

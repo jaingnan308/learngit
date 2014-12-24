@@ -1,16 +1,20 @@
 package com.family.finance.controller;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.family.finance.model.AccountChartVO;
@@ -45,7 +50,7 @@ public class UserAccountController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public @ResponseBody Long addAccount(@RequestParam Map<String, Object> params, HttpServletResponse response){
+	public @ResponseBody Long addAccount(@RequestParam Map<String, Object> params,@RequestParam("file") CommonsMultipartFile[] myfiles, HttpServletResponse response, HttpServletRequest request){
 		System.out.println(params.toString());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("subject", "家庭财务提醒服务");
@@ -55,26 +60,41 @@ public class UserAccountController {
 //		} catch (MessagingException e) {
 //			e.printStackTrace();
 //		}
-		
-		int b = 0;
-		FileInputStream in = null;
-		FileOutputStream out = null;
-		try{
-			in = new FileInputStream((String) params.get("imgsrc"));
-			out = new FileOutputStream("E:\\study\\JAVA\\hello2.jpg");
-			while((b=in.read()) != -1){
-				out.write(b);
-			}
-			in.close();
-			out.close();
-		}catch(Exception e){
-			System.out.println("找不到指定文件");
-		}
-		System.out.println("文件已复制");
+//		
+		StringBuffer imgsrc = new StringBuffer("");
+		for(MultipartFile myfile : myfiles){  
+            if(myfile.isEmpty()){  
+                System.out.println("文件未上传");
+                params.put("imageSrc", "");
+            }else{  
+                System.out.println("文件长度: " + myfile.getSize());  
+                System.out.println("文件类型: " + myfile.getContentType());  
+                System.out.println("文件名称: " + myfile.getName());  
+                System.out.println("文件原名: " + myfile.getOriginalFilename());  
+                System.out.println("========================================");  
+                String oldname = myfile.getOriginalFilename();
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+                imgsrc.append(sdf.format(date));
+                imgsrc.append("-");
+                imgsrc.append((int)(Math.random()*100));
+                imgsrc.append(oldname.substring(oldname.length()-4));
+                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\accountImg文件夹中  
+                String realPath = request.getSession().getServletContext().getRealPath("/accountImg");  
+                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
+                try {
+					FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, imgsrc.toString()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				} 
+                System.out.println("src="+imgsrc.toString());
+                params.put("imageSrc", "/accountImg/"+imgsrc.toString());
+            }  
+        }  
 		return userAccountService.addAccount(params);
 	}
 
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/getByCon.do", method= RequestMethod.POST)
 	public @ResponseBody Grid queryFinanceByCondition(@RequestParam Map<String, Object> params) throws IOException {
 		grid.setRows(userAccountService.queryFinanceByCondition(params));
 		grid.setTotal(userAccountService.queryFinanceCountByCondition(params));
@@ -85,42 +105,28 @@ public class UserAccountController {
 	 * 资金统计饼状图
 	 * @return
 	 */
-	
 	@RequestMapping(value = "/chart",method = RequestMethod.POST)
 	public @ResponseBody List<AccountChartVO> accountChart(){
 		return userAccountService.queryAccountChart();
 	}
 	
-	@RequestMapping(value = "/upload",method = RequestMethod.POST)  
-    public String upload(@RequestParam("file") CommonsMultipartFile[] files,@RequestParam Map<String, Object> params, HttpServletRequest request){  
-        for(int i = 0;i<files.length;i++){  
-            System.out.println("fileName---------->" + files[i].getOriginalFilename());  
-          
-            if(!files[i].isEmpty()){  
-                int pre = (int) System.currentTimeMillis();  
-                try {  
-                    //拿到输出流，同时重命名上传的文件  
-                    FileOutputStream os = new FileOutputStream("D:/" + new Date().getTime() + files[i].getOriginalFilename());  
-                    //拿到上传文件的输入流  
-                    FileInputStream in = (FileInputStream) files[i].getInputStream();  
-                      
-                    //以写字节的方式写文件  
-                    int b = 0;  
-                    while((b=in.read()) != -1){  
-                        os.write(b);  
-                    }  
-                    os.flush();  
-                    os.close();  
-                    in.close();  
-                    int finaltime = (int) System.currentTimeMillis();  
-                    System.out.println(finaltime - pre);  
-                      
-                } catch (Exception e) {  
-                    e.printStackTrace();  
-                    System.out.println("上传出错");  
-                }  
-        }  
-        }  
-        return "/success";  
-    }
+	/**
+	 * 资金统计饼状图
+	 * @return
+	 */
+	@RequestMapping(value = "/excelAccount.do",method = RequestMethod.POST)
+	public void excelAccount(HttpServletResponse response, HttpServletRequest request){
+		System.out.println("我要导出表格了 ");
+		
+		 Map<String, Object> map = new HashMap<String, Object>();
+		 String tempPath = request.getRealPath("") + File.separator + "excelTemplates" + File.separator + "资金账单模板.xlsx";
+//	        String tempPath = ServletActionContext.getServletContext().getRealPath("") + File.separator
+//	                          + "excelTemplates" + File.separator + "已支付交易单导出模板.xlsx";
+	        String realPath = request.getRealPath("/") + File.separator;
+	        
+            map.put("realPath", realPath);
+            map.put("tempPath", tempPath);
+		 userAccountService.exportPaidOrderExcel(map, request, response);
+	}
+	
 }

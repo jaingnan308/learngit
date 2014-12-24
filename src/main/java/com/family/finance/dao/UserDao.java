@@ -20,6 +20,8 @@ public interface UserDao {
 	public List<DateDictionaryDO> queryDictionary(Integer parentId)
 			throws DataAccessException;
 	
+	public List<UserDO> queryCombox() throws DataAccessException;
+	
 	public List<Syresource> getMainMenuTree() throws DataAccessException;;
 	
 	public List<UserDO> queryUser(Map<String, Object> params) throws DataAccessException;

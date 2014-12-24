@@ -15,6 +15,7 @@ public class UserAccountsDO implements Serializable {
 
 	private Integer id;
 	private Integer userId; // 用户ID
+	private String userName; //账单归属人真实姓名
 	private Integer direction;
 	private Integer financeType;
 	private Double money;
@@ -25,7 +26,8 @@ public class UserAccountsDO implements Serializable {
 	private String updateAtStr;
 	private Date updateAt;
 	private Integer updateMan;
-	private String financeTypeStr; // 资金类型名称
+	private String financeTypeName; // 资金类型名称
+	private String imageSrc; // 账单图片路径
 
 	public Integer getId() {
 		return id;
@@ -41,6 +43,14 @@ public class UserAccountsDO implements Serializable {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public Integer getDirection() {
@@ -123,12 +133,20 @@ public class UserAccountsDO implements Serializable {
 		this.updateAtStr = updateAtStr;
 	}
 
-	public String getFinanceTypeStr() {
-		return financeTypeStr;
+	public String getFinanceTypeName() {
+		return financeTypeName;
 	}
 
-	public void setFinanceTypeStr(String financeTypeStr) {
-		this.financeTypeStr = financeTypeStr;
+	public void setFinanceTypeName(String financeTypeName) {
+		this.financeTypeName = financeTypeName;
+	}
+
+	public String getImageSrc() {
+		return imageSrc;
+	}
+
+	public void setImageSrc(String imageSrc) {
+		this.imageSrc = imageSrc;
 	}
 
 }

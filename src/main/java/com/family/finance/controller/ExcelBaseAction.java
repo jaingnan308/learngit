@@ -23,6 +23,7 @@ public class ExcelBaseAction {
 
     public static void exportFile(HttpServletResponse response, HttpServletRequest request,
                                   File file, boolean isDel) {
+    	response.reset();
         OutputStream out = null;
         InputStream in = null;
         // 获得文件
@@ -48,6 +49,7 @@ public class ExcelBaseAction {
             } else {
                 response.setContentType("application/x-msdownload");
             }
+            response.setContentType("application/vnd.ms-excel");//设置正确的输出类型
             if (request.getHeader("user-agent").indexOf("MSIE") != -1) {
                 filename = URLEncoder.encode(file.getName(), "UTF-8");
             } else {

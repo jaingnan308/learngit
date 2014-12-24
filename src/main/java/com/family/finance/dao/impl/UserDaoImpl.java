@@ -39,22 +39,31 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	}
 
 	@SuppressWarnings("unchecked")
-    @Override
-    public List<Syresource> getMainMenuTree() throws DataAccessException {
-        return super.getSqlMapClientTemplate().queryForList(
-            "User.getMainMenuTree");
-    }
+	@Override
+	public List<Syresource> getMainMenuTree() throws DataAccessException {
+		return super.getSqlMapClientTemplate().queryForList(
+				"User.getMainMenuTree");
+	}
 
 	@SuppressWarnings("unchecked")
-    @Override
-    public List<UserDO> queryUser(Map<String, Object> params) throws DataAccessException {
-        return super.getSqlMapClientTemplate().queryForList(
-                "User.queryUserField",params);
-    }
+	@Override
+	public List<UserDO> queryUser(Map<String, Object> params)
+			throws DataAccessException {
+		return super.getSqlMapClientTemplate().queryForList(
+				"User.queryUserField", params);
+	}
 
-    @Override
-    public Long queryUserCount(Map<String, Object> params) throws DataAccessException {
-        return (Long) super.getSqlMapClientTemplate().queryForObject(
-            "User.queryUserCount",params);
-    }
+	@Override
+	public Long queryUserCount(Map<String, Object> params)
+			throws DataAccessException {
+		return (Long) super.getSqlMapClientTemplate().queryForObject(
+				"User.queryUserCount", params);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserDO> queryCombox() throws DataAccessException {
+		return super.getSqlMapClientTemplate().queryForList(
+				"User.queryCombox");
+	}
 }
